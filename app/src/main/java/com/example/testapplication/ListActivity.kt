@@ -2,13 +2,14 @@ package com.example.testapplication
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapplication.databinding.ActivityListBinding
+
 
 /**
  *
@@ -17,11 +18,12 @@ import com.example.testapplication.databinding.ActivityListBinding
  *
  * @author Nishikanta
  */
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(), ListAdapter.ItemClickListner {
     private lateinit var binding: ActivityListBinding
     private lateinit var viewModel: ListViewModel
     private lateinit var listAdapter: ListAdapter
     private var pagecount = 1
+    var alertDialog: AlertDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
@@ -59,10 +61,39 @@ class ListActivity : AppCompatActivity() {
      * @author Nishikanta
      */
     private fun prepareRecyclerView() {
-        listAdapter = ListAdapter()
+        listAdapter = ListAdapter(this)
         binding.rcv.apply {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = listAdapter
         }
     }
+
+    /**
+     * This is the ovverride method of adapter class where we initialize the item click of the list
+     * and shows the alert dialog with app name and description
+     *
+     * @param description
+     * @author Nishikanta
+     */
+    override fun onItemClicked(description: String) {
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Test App")
+        //set message for alert dialog
+        builder.setMessage(description)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Okay") { dialogInterface, which ->
+            alertDialog?.cancel()
+        }
+
+        // Create the AlertDialog
+        alertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog?.setCancelable(false)
+        alertDialog?.show()
+    }
+
+
 }
