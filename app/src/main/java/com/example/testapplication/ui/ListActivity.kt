@@ -1,4 +1,4 @@
-package com.example.testapplication
+package com.example.testapplication.ui
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testapplication.adapter.ListAdapter
+import com.example.testapplication.viewmodel.ListViewModel
 import com.example.testapplication.databinding.ActivityListBinding
 
 
@@ -24,6 +26,9 @@ class ListActivity : AppCompatActivity(), ListAdapter.ItemClickListner {
     private lateinit var listAdapter: ListAdapter
     private var pagecount = 1
     var alertDialog: AlertDialog? = null
+    companion object {
+        private val PAGE_LIMIT = "20"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
@@ -31,12 +36,8 @@ class ListActivity : AppCompatActivity(), ListAdapter.ItemClickListner {
         prepareRecyclerView()
         binding.idPBLoading.visibility = View.VISIBLE
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
-        viewModel.getPopularMovies(pagecount.toString(), "20")
-        viewModel.observeMovieLiveData().observe(this, Observer { mList ->
-            listAdapter.setMList(mList)
-            binding.idPBLoading.visibility = View.GONE
-            binding.swipeToRefresh.isRefreshing = false
-        })
+        viewModel.getPopularMovies(pagecount.toString(), PAGE_LIMIT)
+        initObserver()
         binding.swipeToRefresh.setOnRefreshListener {
             if (pagecount <= 20) {
                 pagecount++
@@ -53,6 +54,14 @@ class ListActivity : AppCompatActivity(), ListAdapter.ItemClickListner {
                 viewModel.getPopularMovies(pagecount.toString(), "20")
             }
         }
+    }
+
+    private fun initObserver() {
+        viewModel.observeMovieLiveData().observe(this, Observer { mList ->
+            listAdapter.setMList(mList)
+            binding.idPBLoading.visibility = View.GONE
+            binding.swipeToRefresh.isRefreshing = false
+        })
     }
 
     /**
@@ -94,6 +103,8 @@ class ListActivity : AppCompatActivity(), ListAdapter.ItemClickListner {
         alertDialog?.setCancelable(false)
         alertDialog?.show()
     }
+
+
 
 
 }

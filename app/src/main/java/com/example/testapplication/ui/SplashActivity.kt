@@ -1,10 +1,11 @@
-package com.example.testapplication
+package com.example.testapplication.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.example.testapplication.databinding.ActivitySplashBinding
 
 
 /**
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
  */
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
     companion object{
         private val SPLASH_SCREEN_TIME_OUT = 5000
     }
@@ -24,7 +26,8 @@ class SplashActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         Handler().postDelayed(Runnable {
             val i = Intent(

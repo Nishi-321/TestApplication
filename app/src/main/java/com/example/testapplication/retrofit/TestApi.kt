@@ -1,5 +1,6 @@
-package com.example.testapplication
+package com.example.testapplication.retrofit
 
+import com.example.testapplication.model.ListModel
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

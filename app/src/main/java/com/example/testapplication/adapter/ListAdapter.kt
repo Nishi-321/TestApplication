@@ -1,4 +1,4 @@
-package com.example.testapplication
+package com.example.testapplication.adapter
 
 import android.R
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.testapplication.model.ListModel
 import com.example.testapplication.databinding.ListItemLayoutBinding
 
 
@@ -38,6 +39,7 @@ class ListAdapter(private val listner: ItemClickListner) : RecyclerView.Adapter<
         requestOptions.error(R.drawable.ic_delete)
         Glide.with(holder.itemView)
             .setDefaultRequestOptions(requestOptions)
+            .apply { RequestOptions.timeoutOf(5 * 60 * 1000) }
             .load(mList[position].download_url)
             .into(holder.binding.imgView);
         holder.binding.txtTitle.text = mList[position].author
@@ -45,6 +47,8 @@ class ListAdapter(private val listner: ItemClickListner) : RecyclerView.Adapter<
         holder.binding.container.setOnClickListener{
             listner.onItemClicked(mList[position].download_url)
         }
+
+
     }
 
     /**

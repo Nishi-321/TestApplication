@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="10sp"
         android:id="@+id/container">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/black"
-            app:strokeWidth="2dp"
+            app:strokeWidth="2sp"
             tools:ignore="MissingConstraints">
 
         </com.google.android.material.imageview.ShapeableImageView>
@@ -38,7 +38,7 @@
             android:maxLines="1"
             android:text="Title"
             android:textColor="@color/black"
-            android:textSize="12dp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/imgView"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +51,7 @@
             android:maxLines="1"
             android:text="Description"
             android:textColor="@color/black"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:layout_marginRight="10dp"
             app:layout_constraintStart_toEndOf="@id/imgView"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
